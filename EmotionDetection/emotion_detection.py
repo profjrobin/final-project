@@ -9,13 +9,18 @@ def emotion_detector(text_to_analyze):
     input_json = { "raw_document": { "text": text_to_analyze } }
     response = requests.post(url, json = input_json, headers = headers)
 
-    # Convert response to a dictionary
-    data_dict = json.loads(response.text)
+    if (response.status_code == 200):
+        # Convert response to a dictionary
+        data_dict = json.loads(response.text)
 
-    #emotionPredictions is a list of iems
-    emotions = data_dict['emotionPredictions'][0]['emotion']
+        #emotionPredictions is a list of iems
+        emotions = data_dict['emotionPredictions'][0]['emotion']
 
-    dominant_emotion = max(emotions, key=emotions.get)
+        dominant_emotion = max(emotions, key=emotions.get)
+    elif (response.status_code == 400):
+        emotions = {'anger': 'None', 'disgust': 'None', 'fear': 'None',
+        'joy': 'None', 'sadness': 'None'}
+        dominant_emotion = None
 
     anger_score = emotions['anger']
     disgust_score = emotions['disgust']

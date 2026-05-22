@@ -29,7 +29,10 @@ def emote_detector():
     sadness_score = emotions_dict['sadness']
     dominant_emotion = emotions_dict['dominant_emotion']
 
-    return f"""For the given statement, the system
+    if (dominant_emotion == 'None'):
+        return "Invalid text! Please try again"
+    else:
+        return f"""For the given statement, the system
            response is 'anger': {anger_score},
            'disgust': {disgust_score}, 'fear':
            {fear_score}, 'joy': {joy_score} and
